@@ -1,0 +1,257 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+ 
+<head> 
+ 
+    <meta charset="UTF-8"> 
+ 
+    <meta 
+        name="viewport" 
+        content="width=device-width, initial-scale=1.0" 
+    > 
+ 
+    <title>PCP AI | Sign In</title> 
+ 
+<link rel="stylesheet" href="/static/css/style.css"> 
+</head> 
+ 
+ 
+<body class="auth-page"> 
+ 
+ 
+    <div class="auth-container"> 
+ 
+        <div class="auth-card"> 
+ 
+ 
+            <!-- LOGO --> 
+ 
+            <div class="auth-logo"> 
+                PCP 
+            </div> 
+ 
+ 
+            <div class="auth-brand"> 
+                PCP AI 
+            </div> 
+ 
+ 
+            <div class="auth-project"> 
+                FINAL YEAR PROJECT 
+            </div> 
+ 
+ 
+            <!-- LOGIN --> 
+ 
+            <div id="loginSection"> 
+ 
+ 
+                <h1 class="auth-title"> 
+                    Welcome Back 
+                </h1> 
+ 
+ 
+                <p class="auth-subtitle"> 
+                    Sign in to access your PCP arbitrage dashboard. 
+                </p> 
+ 
+ 
+                <form 
+                    id="loginForm" 
+                    class="auth-form" 
+                > 
+ 
+ 
+                    <div class="form-group"> 
+ 
+                        <label for="email"> 
+                            Email Address 
+                        </label> 
+ 
+ 
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="Enter your email" 
+                            autocomplete="email" 
+                            required 
+                        > 
+ 
+                    </div> 
+ 
+ 
+                    <div class="form-group"> 
+ 
+                        <label for="password"> 
+                            Password 
+                        </label> 
+ 
+ 
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Minimum 6 characters" 
+                            autocomplete="current-password" 
+                            required 
+                        > 
+ 
+                    </div> 
+ 
+ 
+                    <button 
+                        type="submit" 
+                        id="loginButton" 
+                        class="auth-button" 
+                    > 
+                        Sign In 
+                    </button> 
+ 
+ 
+                    <div 
+                        id="loginMessage" 
+                        class="auth-message" 
+                        style="display:none;" 
+                    ></div> 
+ 
+ 
+                </form> 
+ 
+ 
+                <div class="auth-switch"> 
+ 
+                    Don't have an account? 
+ 
+                    <a 
+                        href="#" 
+                        id="showRegister" 
+                    > 
+                        Create Account 
+                    </a> 
+ 
+                </div> 
+ 
+ 
+            </div> 
+ 
+ 
+            <!-- REGISTER --> 
+ 
+            <div 
+                id="registerSection" 
+                style="display:none;" 
+            > 
+ 
+ 
+                <h1 class="auth-title"> 
+                    Create Account 
+                </h1> 
+ 
+ 
+                <p class="auth-subtitle"> 
+                    Create an account to access PCP AI. 
+                </p> 
+ 
+ 
+                <form 
+                    id="registerForm" 
+                    class="auth-form" 
+                > 
+ 
+ 
+                    <div class="form-group"> 
+ 
+                        <label for="registerEmail"> 
+                            Email Address 
+                        </label> 
+ 
+ 
+                        <input 
+                            type="email" 
+                            id="registerEmail" 
+                            placeholder="Enter your email" 
+                            autocomplete="email" 
+                            required 
+                        > 
+ 
+                    </div> 
+ 
+ 
+                    <div class="form-group"> 
+ 
+                        <label for="registerPassword"> 
+                            Password 
+                        </label> 
+ 
+ 
+                        <input 
+                            type="password" 
+                            id="registerPassword" 
+                            placeholder="Minimum 6 characters" 
+                            minlength="6" 
+                            autocomplete="new-password" 
+                            required 
+                        > 
+ 
+                    </div> 
+ 
+ 
+                    <button 
+                        type="submit" 
+                        id="registerButton" 
+                        class="auth-button" 
+                    > 
+                        Create Account 
+                    </button> 
+ 
+ 
+                    <div 
+                        id="registerMessage" 
+                        class="auth-message" 
+                        style="display:none;" 
+                    ></div> 
+ 
+ 
+                </form> 
+ 
+ 
+                <div class="auth-switch"> 
+ 
+                    Already have an account? 
+ 
+                    <a 
+                        href="#" 
+                        id="showLogin" 
+                    > 
+                        Sign In 
+                    </a> 
+ 
+                </div> 
+ 
+ 
+            </div> 
+ 
+ 
+            <!-- SECURITY --> 
+ 
+            <div class="auth-security"> 
+ 
+                <span>🔒</span> 
+ 
+                Your password is securely handled by 
+                the authentication backend. 
+ 
+            </div> 
+ 
+ 
+        </div> 
+ 
+    </div> 
+ 
+ 
+    <script src="/static/js/auth.js"></script> 
+ 
+</body> 
+ 
+</html> 

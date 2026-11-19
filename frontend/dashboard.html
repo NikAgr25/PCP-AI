@@ -1,0 +1,910 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PCP AI — Arbitrage Intelligence</title>
+
+    <!-- Main Dashboard CSS -->
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+
+    <!-- Chart.js for SHAP visualization -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js"
+    ></script>
+
+    <!-- Company Selector Styling -->
+    <style>
+        .company-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .company-selector label {
+            color: var(--text-secondary, #8f98a6);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .company-selector select {
+            max-width: 220px;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color, rgba(255,255,255,0.12));
+            border-radius: 8px;
+            background: var(--card-background, #151922);
+            color: var(--text-primary, #f1f5f9);
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .company-selector select:focus {
+            outline: 2px solid var(--accent-color, #647cff);
+            outline-offset: 2px;
+        }
+
+        .company-selector select option:disabled {
+            color: #8f98a6;
+        }
+
+        @media (max-width: 700px) {
+            .company-selector {
+                flex-wrap: wrap;
+            }
+
+            .company-selector select {
+                max-width: 180px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dashboard-page">
+
+<!-- =========================================================
+     MOBILE TOPBAR
+========================================================= -->
+
+<div class="pcp-mobile-topbar">
+
+    <button
+        id="pcpSidebarToggle"
+        class="pcp-sidebar-toggle"
+        type="button"
+        aria-label="Open navigation"
+    >
+        ☰
+    </button>
+
+    <div class="mobile-brand">
+
+        <div class="mobile-brand-logo">
+            P
+        </div>
+
+        <div>
+            <strong>PCP AI</strong>
+            <span>Arbitrage Intelligence</span>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside
+    id="pcpSidebar"
+    class="pcp-sidebar"
+>
+
+    <div class="pcp-sidebar-brand">
+
+        <div class="pcp-sidebar-logo">
+            P
+        </div>
+
+        <div class="pcp-sidebar-brand-text">
+
+            <div class="pcp-sidebar-title">
+                PCP AI
+            </div>
+
+            <div class="pcp-sidebar-subtitle">
+                Arbitrage Intelligence
+            </div>
+
+        </div>
+
+    </div>
+
+    <nav class="pcp-sidebar-nav">
+
+        <a
+            class="pcp-nav-link active"
+            href="#dashboard-section"
+        >
+            <span class="nav-icon">⌂</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a
+            class="pcp-nav-link"
+            href="#prediction-section"
+        >
+            <span class="nav-icon">⌁</span>
+            <span>Prediction</span>
+        </a>
+
+        <a
+            class="pcp-nav-link"
+            href="#pcp-calculator-section"
+        >
+            <span class="nav-icon">∑</span>
+            <span>PCP Calculator</span>
+        </a>
+
+        <a
+            class="pcp-nav-link"
+            href="#xai-section"
+        >
+            <span class="nav-icon">◈</span>
+            <span>Explainable AI</span>
+        </a>
+
+        <a
+            class="pcp-nav-link"
+            href="#model-info-section"
+        >
+            <span class="nav-icon">▣</span>
+            <span>Model Info</span>
+        </a>
+
+        <a
+            class="pcp-nav-link"
+            href="#account-section"
+        >
+            <span class="nav-icon">○</span>
+            <span>Account</span>
+        </a>
+
+    </nav>
+
+    <div class="pcp-sidebar-footer">
+
+        <span class="sidebar-status-dot"></span>
+
+        <div>
+            <strong>Model Active</strong>
+            <small>Hybrid AI System</small>
+        </div>
+
+    </div>
+
+</aside>
+
+<!-- =========================================================
+     MAIN CONTAINER
+========================================================= -->
+
+<main class="dashboard-container">
+
+<!-- =========================================================
+     TOPBAR
+========================================================= -->
+
+<header class="topbar">
+
+    <div class="topbar-left">
+
+        <div class="brand-mark">
+            P
+        </div>
+
+        <div>
+            <div class="brand-name">
+                Arbitrage Intelligence
+            </div>
+
+            <div class="brand-subtitle">
+                Put-Call Parity Analysis
+            </div>
+        </div>
+
+    </div>
+
+    <div class="topbar-right">
+
+        <!-- COMPANY SELECTOR -->
+       
+<div class="company-selector">
+    <label for="companySelect">Company</label>
+    <select id="companySelect" aria-label="Select company">
+        <option value="RELIANCE" selected>RELIANCE</option>
+        <option value="TCS">TCS</option>
+        <option value="INFY">INFOSYS</option>
+        <option value="HDFCBANK">HDFC BANK</option>
+        <option value="SBIN">STATE BANK OF INDIA</option>
+    </select>
+</div>
+
+
+        <div class="model-status">
+
+            <span class="status-dot"></span>
+
+            <span>
+                Model Active
+            </span>
+
+        </div>
+
+        <span
+            id="userEmail"
+            class="user-email"
+        >
+            User
+        </span>
+
+        <button
+            id="logoutButton"
+            class="logout-button"
+            type="button"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+<!-- =========================================================
+     DASHBOARD HEADER
+========================================================= -->
+
+<section
+    id="dashboard-section"
+    class="dashboard-section page-header"
+>
+
+    <div class="eyebrow">
+        FINAL YEAR PROJECT
+    </div>
+
+    <h1>
+        Put-Call Parity
+        <span>Arbitrage Intelligence</span>
+    </h1>
+
+    <p>
+        Hybrid LSTM–Transformer based PCP deviation
+        prediction and arbitrage signal generation.
+    </p>
+
+</section>
+
+<!-- =========================================================
+     CURRENT MODEL SIGNAL
+========================================================= -->
+
+<section class="dashboard-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <span class="section-kicker">
+                MODEL OUTPUT
+            </span>
+
+            <h2>
+                Current Market Signal
+            </h2>
+
+            <p>
+                Latest prediction generated by the
+                Hybrid LSTM–Transformer model.
+            </p>
+
+        </div>
+
+        <button
+            id="refreshSignal"
+            class="secondary-button"
+            type="button"
+        >
+            Refresh
+        </button>
+
+    </div>
+
+    <div class="signal-main-card">
+
+        <div class="signal-main-left">
+
+            <span class="small-label">
+                Predicted PCP Deviation
+            </span>
+
+            <div
+                id="bigDeviation"
+                class="big-deviation"
+            >
+                —
+            </div>
+
+            <div
+                id="signalRationale"
+                class="signal-rationale"
+            >
+                Loading model prediction...
+            </div>
+
+        </div>
+
+        <div class="signal-main-right">
+
+            <span class="small-label">
+                Signal
+            </span>
+
+            <div
+                id="bigSignal"
+                class="big-signal"
+            >
+                —
+            </div>
+
+            <div
+                id="strategyText"
+                class="strategy-text"
+            >
+                —
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="signal-details-grid">
+
+        <div class="info-card">
+            <span>Prediction Date</span>
+            <strong id="signalDate">—</strong>
+        </div>
+
+        <div class="info-card">
+            <span>Lookback Window</span>
+            <strong id="signalLookback">30 Timesteps</strong>
+        </div>
+
+        <div class="info-card">
+            <span>Buy Threshold</span>
+            <strong id="buyThreshold">+500</strong>
+        </div>
+
+        <div class="info-card">
+            <span>Sell Threshold</span>
+            <strong id="sellThreshold">-500</strong>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     MANUAL AI PREDICTION
+========================================================= -->
+
+<section
+    id="prediction-section"
+    class="dashboard-section"
+>
+
+    <div class="section-heading">
+
+        <div>
+
+            <span class="section-kicker">
+                AI PREDICTION
+            </span>
+
+            <h2>Run New Prediction</h2>
+
+            <p>
+                Enter new option-market values.
+                The system combines your input with
+                the latest historical sequence and
+                sends it to the Hybrid LSTM–Transformer model.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="prediction-card">
+
+        <div class="prediction-grid">
+
+            <div class="prediction-field">
+                <label for="predictSpot">Spot Price</label>
+                <input
+                    id="predictSpot"
+                    type="number"
+                    step="any"
+                    min="0"
+                    autocomplete="off"
+                    placeholder="Enter spot price"
+                >
+                <small>Current underlying asset price</small>
+            </div>
+
+            <div class="prediction-field">
+                <label for="predictStrike">Strike Price</label>
+                <input
+                    id="predictStrike"
+                    type="number"
+                    step="any"
+                    min="0"
+                    autocomplete="off"
+                    placeholder="Enter strike price"
+                >
+                <small>Option strike price</small>
+            </div>
+
+            <div class="prediction-field">
+                <label for="predictCall">Call Price</label>
+                <input
+                    id="predictCall"
+                    type="number"
+                    step="any"
+                    min="0"
+                    autocomplete="off"
+                    placeholder="Enter call price"
+                >
+                <small>Current call option price</small>
+            </div>
+
+            <div class="prediction-field">
+                <label for="predictPut">Put Price</label>
+                <input
+                    id="predictPut"
+                    type="number"
+                    step="any"
+                    min="0"
+                    autocomplete="off"
+                    placeholder="Enter put price"
+                >
+                <small>Current put option price</small>
+            </div>
+
+            <div class="prediction-field">
+                <label for="predictCallOI">Call Open Interest</label>
+                <input
+                    id="predictCallOI"
+                    type="number"
+                    step="any"
+                    min="0"
+                    autocomplete="off"
+                    placeholder="Enter call OI"
+                >
+                <small>Call-side open interest</small>
+            </div>
+
+            <div class="prediction-field">
+                <label for="predictPutOI">Put Open Interest</label>
+                <input
+                    id="predictPutOI"
+                    type="number"
+                    step="any"
+                    min="0"
+                    autocomplete="off"
+                    placeholder="Enter put OI"
+                >
+                <small>Put-side open interest</small>
+            </div>
+
+            <div class="prediction-field">
+                <label for="predictT">Time to Expiry</label>
+                <input
+                    id="predictT"
+                    type="number"
+                    step="any"
+                    min="0"
+                    autocomplete="off"
+                    placeholder="Years"
+                >
+                <small>Remaining time until expiry</small>
+            </div>
+
+        </div>
+
+        <div class="prediction-actions">
+
+            <button
+                id="runPredictionButton"
+                class="primary-button"
+                type="button"
+            >
+                Run AI Prediction
+            </button>
+
+            <div
+                id="predictionFormMessage"
+                class="prediction-status"
+                aria-live="polite"
+            ></div>
+
+        </div>
+
+        <div
+            id="predictionResult"
+            class="prediction-result-card"
+        >
+
+            <div>
+                <span>Predicted Deviation</span>
+                <strong id="predictionDeviation">—</strong>
+            </div>
+
+            <div>
+                <span>Signal</span>
+                <strong
+                    id="predictionSignal"
+                    class="prediction-signal"
+                >
+                    —
+                </strong>
+            </div>
+
+            <div>
+                <span>Strategy</span>
+                <strong id="predictionStrategy">—</strong>
+            </div>
+
+            <div>
+                <span>Model Window</span>
+                <strong>30 Timesteps</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     PCP CALCULATOR
+========================================================= -->
+
+<section
+    id="pcp-calculator-section"
+    class="dashboard-section pcp-extra-section"
+>
+
+    <div class="section-heading">
+
+        <div>
+            <span class="section-kicker">QUANTITATIVE TOOL</span>
+            <h2>PCP Calculator</h2>
+
+            <p>
+                Calculate theoretical Put-Call Parity
+                and compare it with observed option prices.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="pcp-calculator-card">
+
+        <div class="pcp-calculator-grid">
+
+            <label>
+                <span>Spot Price</span>
+                <input
+                    id="pcpSpot"
+                    type="number"
+                    step="any"
+                    min="0"
+                    placeholder="Enter spot price"
+                >
+            </label>
+
+            <label>
+                <span>Call Price</span>
+                <input
+                    id="pcpCall"
+                    type="number"
+                    step="any"
+                    min="0"
+                    placeholder="Enter call price"
+                >
+            </label>
+
+            <label>
+                <span>Put Price</span>
+                <input
+                    id="pcpPut"
+                    type="number"
+                    step="any"
+                    min="0"
+                    placeholder="Enter put price"
+                >
+            </label>
+
+            <label>
+                <span>Strike Price</span>
+                <input
+                    id="pcpStrike"
+                    type="number"
+                    step="any"
+                    min="0"
+                    placeholder="Enter strike price"
+                >
+            </label>
+
+            <label>
+                <span>Time to Expiry</span>
+                <input
+                    id="pcpTime"
+                    type="number"
+                    step="any"
+                    min="0"
+                    placeholder="Years"
+                >
+            </label>
+
+            <label>
+                <span>Risk-free Rate</span>
+                <input
+                    id="pcpRate"
+                    type="number"
+                    step="any"
+                    placeholder="Example: 0.06"
+                >
+            </label>
+
+            <label>
+                <span>Dividend Yield</span>
+                <input
+                    id="pcpDividend"
+                    type="number"
+                    step="any"
+                    placeholder="Example: 0.02"
+                >
+            </label>
+
+        </div>
+
+        <div class="pcp-calculator-actions">
+            <button
+                id="pcpCalculateBtn"
+                class="primary-button"
+                type="button"
+            >
+                Calculate PCP
+            </button>
+        </div>
+
+        <div
+            id="pcpCalculatorResult"
+            class="pcp-calculator-result"
+            aria-live="polite"
+        ></div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     EXPLAINABLE AI / SHAP
+========================================================= -->
+
+<section
+    id="xai-section"
+    class="dashboard-section"
+>
+
+    <div class="section-heading">
+
+        <div>
+            <span class="section-kicker">EXPLAINABLE AI</span>
+
+            <h2>
+                Why did the model make this prediction?
+            </h2>
+
+            <p>
+                SHAP explains how the model input features
+                contributed to the predicted PCP deviation.
+            </p>
+        </div>
+
+        <button
+            id="explainButton"
+            class="secondary-button"
+            type="button"
+        >
+            Refresh Explanation
+        </button>
+
+    </div>
+
+    <div id="xaiResult" class="xai-result">
+
+        <div
+            id="xaiSummary"
+            class="xai-summary"
+        >
+            Loading explanation...
+        </div>
+
+        <div class="xai-explanation-card">
+
+            <div class="xai-card-header">
+
+                <div>
+                    <span class="section-kicker">FEATURE CONTRIBUTION</span>
+                    <h3>SHAP Feature Importance</h3>
+
+                    <p>
+                        Higher contribution indicates a
+                        stronger influence on the prediction.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="xai-chart-container">
+                <canvas id="shapChart"></canvas>
+            </div>
+
+        </div>
+
+        <div
+            id="featureList"
+            class="feature-list"
+        ></div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     MODEL INFORMATION
+========================================================= -->
+
+<section
+    id="model-info-section"
+    class="dashboard-section"
+>
+
+    <div class="section-heading">
+
+        <div>
+            <span class="section-kicker">MODEL</span>
+            <h2>Model Information</h2>
+
+            <p>
+                Configuration of the prediction model used by PCP AI.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="model-grid">
+
+        <div class="model-card">
+            <span>Architecture</span>
+            <strong>Hybrid LSTM–Transformer</strong>
+        </div>
+
+        <div class="model-card">
+            <span>Sequence Length</span>
+            <strong id="modelLookback">30</strong>
+        </div>
+
+        <div class="model-card">
+            <span>Input Features</span>
+            <strong id="modelFeatureCount">7</strong>
+        </div>
+
+        <div class="model-card">
+            <span>Prediction Target</span>
+            <strong>PCP Deviation</strong>
+        </div>
+
+    </div>
+
+    <div class="model-feature-note">
+
+        <span>Model inputs</span>
+
+        <p>
+            Spot Price · Strike Price · Call Price ·
+            Put Price · Call Open Interest ·
+            Put Open Interest · Time to Expiry
+        </p>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     ACCOUNT
+========================================================= -->
+
+<section
+    id="account-section"
+    class="dashboard-section"
+>
+
+    <div class="section-heading">
+
+        <div>
+            <span class="section-kicker">ACCOUNT</span>
+            <h2>Account</h2>
+        </div>
+
+    </div>
+
+    <div class="account-card">
+
+        <div class="account-row">
+            <span>Logged in as</span>
+            <strong id="accountEmail">—</strong>
+        </div>
+
+        <div class="account-row">
+            <span>Authentication</span>
+            <strong>JWT Protected</strong>
+        </div>
+
+        <div class="account-row">
+            <span>Model Status</span>
+            <strong>Active</strong>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="dashboard-footer">
+
+    <div>
+        PCP AI · Put-Call Parity Arbitrage Intelligence
+    </div>
+
+    <div>
+        Hybrid LSTM–Transformer · Explainable AI
+    </div>
+
+</footer>
+
+</main>
+
+<!-- =========================================================
+     DASHBOARD JAVASCRIPT
+========================================================= -->
+
+<script src="/static/js/dashboard.js"></script>
+
+</body>
+</html>

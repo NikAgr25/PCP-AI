@@ -1,0 +1,20 @@
+# Python environments
+.venv/
+backend/venv/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+
+# Dataset
+backend/data/
+
+# Node modules
+**/node_modules/
+
+# Database
+backend/pcp_users.db
+
+# Environment variables
+.env
+**/.env
